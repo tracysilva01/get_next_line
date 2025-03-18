@@ -6,19 +6,21 @@
 /*   By: trsilva- <trsilva-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 20:48:24 by trsilva-          #+#    #+#             */
-/*   Updated: 2025/03/12 20:28:17 by trsilva-         ###   ########.fr       */
+/*   Updated: 2025/03/18 22:11:19 by trsilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
 
-#include <unistd.h> 
-#include <stdlib.h>
+# include <unistd.h> 
+# include <stdlib.h>
+# include <fcntl.h>
+# include <stdio.h>
 
-#ifndef BUFFER_SIZE
-    #define BUFFER_SIZE 42
-#endif
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 42
+# endif
 
 char    *get_next_line(int fd);
 size_t  ft_strlen(const char *s);
