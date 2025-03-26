@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: trsilva- <trsilva-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*read_and_store(int fd)
 {
@@ -32,13 +32,13 @@ char	*read_and_store(int fd)
 	return (buffer);
 }
 
-char	*fill_line(int fd, char *remains)
+char	*fill_line(int fd, char *remains[MAX_FD])
 {
 	char	*line;
 	char	*buffer;
 	char	*temp;
 
-	line = ft_strdup(remains);
+	line = ft_strdup(remains[fd]);
 	while (!ft_strchr(line, '\n'))
 	{
 		buffer = read_and_store(fd);
@@ -77,47 +77,59 @@ char	*remove_remains(char *line)
 	return (clean_line);
 }
 
-char	*get_next_line(int fd)
-{
-	static char	*remains;
-	char		*line;
+char    *get_next_line(int fd) {
+    static char *remains[MAX_FD];
+    char        *line;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (!remains)
-		remains = ft_strdup("");
-	line = fill_line(fd, remains);
-	if (!line || !*line)
-	{
-		free(line);
-		free(remains);
-		remains = NULL;
-		return (NULL);
-	}
-	free(remains);
-	remains = fill_remains(line);
-	return (remove_remains(line));
+    if (fd < 0 || fd >= MAX_FD)
+        return (NULL);
+    if (!remains[fd])
+        remains[fd] = ft_strdup("");
+    line = fill_line(fd, remains);
+    if (!line || !*line) {
+        free(line);
+        free(remains[fd]);
+        remains[fd] = NULL;
+        return (NULL);
+    }
+    free(remains[fd]);
+    remains[fd] = fill_remains(line);
+    return (remove_remains(line));
 }
 
 
-int	main(void)
-{
-	int		fd;
-	char	*line;
-    int     i;
+int main(void) {
+    int     fd1, fd2, fd3;
+    char    *line;
 
-	fd = open("a.txt", O_RDONLY);
-	line = get_next_line(fd);
-    i = 0;
-	while (i < 5)
-	{
-		printf("LINEA LEIDA:%s", line);
-		free(line);
-		line = get_next_line(fd);
-        ++i;
-	}
-	close(fd);
-	return (0);
+    fd1 = open("a.txt", O_RDONLY);
+    fd2 = open("b.txt", O_RDONLY);
+    fd3 = open("c.txt", O_RDONLY);
+
+    if (fd1 < 0 || fd2 < 0 || fd3 < 0) {
+        perror("Error");
+        return (1);
+    }
+    while ((line = get_next_line(fd1))) {
+        printf("File 1: %s", line);
+        free(line);
+    }
+    printf("\n");
+    while ((line = get_next_line(fd2))) {
+        printf("File 2: %s", line);
+        free(line);
+    }
+    printf("\n");
+    while ((line = get_next_line(fd3))) {
+        printf("File 3: %s", line);
+        free(line);
+    }
+    printf("\n");
+    close(fd1);
+    close(fd2);
+    close(fd3);
+
+    return (0);
 }
 
 /*gcc -g -o mi_programa get_next_line_utils.c get_next_line.c
