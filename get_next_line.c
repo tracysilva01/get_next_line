@@ -82,6 +82,8 @@ char	*get_next_line(int fd)
 	static char	*remains;
 	char		*line;
 
+    if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
 	if (!remains)
 		remains = ft_strdup("");
 	line = fill_line(fd, remains);
@@ -101,19 +103,17 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
+    int     i;
 
 	fd = open("a.txt", O_RDONLY);
-	if (fd < 0)
-	{
-		perror("Error opening file");
-		return (1);
-	}
 	line = get_next_line(fd);
-	while (line)
+    i = 0;
+	while (i < 5)
 	{
 		printf("LINEA LEIDA:%s", line);
 		free(line);
 		line = get_next_line(fd);
+        ++i;
 	}
 	close(fd);
 	return (0);
