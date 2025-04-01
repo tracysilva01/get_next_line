@@ -6,7 +6,7 @@
 /*   By: trsilva- <trsilva-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 20:48:14 by trsilva-          #+#    #+#             */
-/*   Updated: 2025/03/25 23:53:31 by trsilva-         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:30:02 by trsilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,60 +77,24 @@ char	*remove_remains(char *line)
 	return (clean_line);
 }
 
-char    *get_next_line(int fd) {
-    static char *remains[MAX_FD];
-    char        *line;
+char	*get_next_line(int fd)
+{
+	static char	*remains[MAX_FD];
+	char		*line;
 
-    if (fd < 0 || fd >= MAX_FD)
-        return (NULL);
-    if (!remains[fd])
-        remains[fd] = ft_strdup("");
-    line = fill_line(fd, remains);
-    if (!line || !*line) {
-        free(line);
-        free(remains[fd]);
-        remains[fd] = NULL;
-        return (NULL);
-    }
-    free(remains[fd]);
-    remains[fd] = fill_remains(line);
-    return (remove_remains(line));
+	if (fd < 0 || fd >= MAX_FD)
+		return (NULL);
+	if (!remains[fd])
+		remains[fd] = ft_strdup("");
+	line = fill_line(fd, remains);
+	if (!line || !*line)
+	{
+		free(line);
+		free(remains[fd]);
+		remains[fd] = NULL;
+		return (NULL);
+	}
+	free(remains[fd]);
+	remains[fd] = fill_remains(line);
+	return (remove_remains(line));
 }
-
-
-int main(void) {
-    int     fd1, fd2, fd3;
-    char    *line;
-
-    fd1 = open("a.txt", O_RDONLY);
-    fd2 = open("b.txt", O_RDONLY);
-    fd3 = open("c.txt", O_RDONLY);
-
-    if (fd1 < 0 || fd2 < 0 || fd3 < 0) {
-        perror("Error");
-        return (1);
-    }
-    while ((line = get_next_line(fd1))) {
-        printf("File 1: %s", line);
-        free(line);
-    }
-    printf("\n");
-    while ((line = get_next_line(fd2))) {
-        printf("File 2: %s", line);
-        free(line);
-    }
-    printf("\n");
-    while ((line = get_next_line(fd3))) {
-        printf("File 3: %s", line);
-        free(line);
-    }
-    printf("\n");
-    close(fd1);
-    close(fd2);
-    close(fd3);
-
-    return (0);
-}
-
-/*gcc -g -o mi_programa get_next_line_utils.c get_next_line.c
-valgrind --leak-check=full ./mi_programa*/
