@@ -6,7 +6,7 @@
 /*   By: trsilva- <trsilva-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 20:48:14 by trsilva-          #+#    #+#             */
-/*   Updated: 2025/03/25 23:53:31 by trsilva-         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:30:02 by trsilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,24 +77,26 @@ char	*remove_remains(char *line)
 	return (clean_line);
 }
 
-char    *get_next_line(int fd) {
-    static char *remains[MAX_FD];
-    char        *line;
+char	*get_next_line(int fd)
+{
+	static char	*remains[MAX_FD];
+	char		*line;
 
-    if (fd < 0 || fd >= MAX_FD)
-        return (NULL);
-    if (!remains[fd])
-        remains[fd] = ft_strdup("");
-    line = fill_line(fd, remains);
-    if (!line || !*line) {
-        free(line);
-        free(remains[fd]);
-        remains[fd] = NULL;
-        return (NULL);
-    }
-    free(remains[fd]);
-    remains[fd] = fill_remains(line);
-    return (remove_remains(line));
+	if (fd < 0 || fd >= MAX_FD)
+		return (NULL);
+	if (!remains[fd])
+		remains[fd] = ft_strdup("");
+	line = fill_line(fd, remains);
+	if (!line || !*line)
+	{
+		free(line);
+		free(remains[fd]);
+		remains[fd] = NULL;
+		return (NULL);
+	}
+	free(remains[fd]);
+	remains[fd] = fill_remains(line);
+	return (remove_remains(line));
 }
 
 

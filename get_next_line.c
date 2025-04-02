@@ -6,7 +6,7 @@
 /*   By: trsilva- <trsilva-@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/08 20:48:14 by trsilva-          #+#    #+#             */
-/*   Updated: 2025/03/25 23:53:31 by trsilva-         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:29:34 by trsilva-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*get_next_line(int fd)
 	static char	*remains;
 	char		*line;
 
-    if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	if (!remains)
 		remains = ft_strdup("");
