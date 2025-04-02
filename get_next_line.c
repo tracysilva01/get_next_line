@@ -104,21 +104,16 @@ int	main(void)
 {
 	int		fd;
 	char	*line;
-    int     i;
 
-	fd = open("a.txt", O_RDONLY);
+	fd = open("archivo.txt", O_RDONLY);
 	line = get_next_line(fd);
-    i = 0;
-	while (i < 5)
+	while (line)
 	{
-		printf("LINEA LEIDA:%s", line);
+		printf("%s", line);
 		free(line);
 		line = get_next_line(fd);
-        ++i;
 	}
+	free(line);
 	close(fd);
 	return (0);
 }
-
-/*gcc -g -o mi_programa get_next_line_utils.c get_next_line.c
-valgrind --leak-check=full ./mi_programa*/

@@ -131,6 +131,3 @@ int main(void) {
 
     return (0);
 }
-
-/*gcc -g -o mi_programa get_next_line_utils.c get_next_line.c
-valgrind --leak-check=full ./mi_programa*/
